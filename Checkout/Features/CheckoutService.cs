@@ -12,7 +12,7 @@ public class CheckoutService : ICheckoutService
         {
             throw new Exception(message: "Item not found");
         }
-        
+
         if(ScannedItems.ContainsKey(item))
         {
             ScannedItems[item]++;
@@ -25,7 +25,13 @@ public class CheckoutService : ICheckoutService
     
     public int GetTotalPrice()
     {
-        throw new NotImplementedException();
+       var totalPrice = 0;
+       foreach (var scannedItem in ScannedItems)
+       {
+            var item = PricingData.FindById(scannedItem.Key);
+            totalPrice += item.UnitPrice * scannedItem.Value;
+       }
+       return totalPrice;
     }
 
     public int GetScannedItemQtyByItemId(string itemId)

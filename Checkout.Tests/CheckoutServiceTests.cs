@@ -6,6 +6,7 @@ namespace Checkout.Tests;
 public class CheckoutServiceTests
 {
     private const int priceA = 50;
+    private const int priceB = 30;
     private ICheckoutService _checkout;
 
     [SetUp]
@@ -58,12 +59,27 @@ public class CheckoutServiceTests
     [TestCase(0)]
     [TestCase(1)]
     [TestCase(2)]
-    public void GetTotalPrice_ShouldReturnCorrectPrice(int itemsQty)
+    public void GetTotalPrice_ShouldReturnCorrectPrice_whenSameItem(int itemsQty)
     {
         for (int i = 0; i < itemsQty; i++)
         {
             _checkout.Scan("A");
         }
         Assert.That(_checkout.GetTotalPrice(), Is.EqualTo(itemsQty * priceA));
+    }
+
+    [Test]
+    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(2)]
+    public void GetTotalPrice_ShouldReturnCorrectPrice_WhenDifferentItem(int itemsQty)
+    {
+        for (int i = 0; i < itemsQty; i++)
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+        }
+        
+        Assert.That(_checkout.GetTotalPrice(), Is.EqualTo(itemsQty * priceA + itemsQty * priceB));
     }
 }
