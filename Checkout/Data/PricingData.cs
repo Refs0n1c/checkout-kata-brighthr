@@ -5,7 +5,7 @@ namespace Checkout.Data;
 public static class PricingData
 {
     //IRL this would be from a DB but in the interests of time, im not going to implemented a inMemory DB EF implementation
-    public static List<ItemPrice> ItemPrices { get; } = new List<ItemPrice>
+    private static List<ItemPrice> ItemPrices { get; } = new List<ItemPrice>
     { 
         new ItemPrice 
         {
@@ -40,4 +40,9 @@ public static class PricingData
             SpecialOfferTotalPrice = 0
         }
     };
+
+    public static ItemPrice? FindById(string itemId)
+    {
+        return ItemPrices.FirstOrDefault(x => x.Id == itemId);
+    }
 }

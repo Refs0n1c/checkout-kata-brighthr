@@ -1,3 +1,5 @@
+using Checkout.Data;
+
 namespace Checkout.Features;
 
 public class CheckoutService : ICheckoutService
@@ -6,6 +8,11 @@ public class CheckoutService : ICheckoutService
 
     public void Scan(string item)
     {
+        if(PricingData.FindById(item) == null)
+        {
+            throw new Exception(message: "Item not found");
+        }
+        
         if(ScannedItems.ContainsKey(item))
         {
             ScannedItems[item]++;
