@@ -7,6 +7,7 @@ public class CheckoutServiceTests
 {
     private const int priceA = 50;
     private const int priceB = 30;
+    private const int specialPriceA = 130;
     private ICheckoutService _checkout;
 
     [SetUp]
@@ -81,5 +82,15 @@ public class CheckoutServiceTests
         }
         
         Assert.That(_checkout.GetTotalPrice(), Is.EqualTo(itemsQty * priceA + itemsQty * priceB));
+    }
+
+    [Test]
+    public void GetTotalPrice_ShouldReturnCorrectPrice_WhenItemQtyIsSpecialOffer()
+    {
+       _checkout.Scan("A");
+       _checkout.Scan("A");
+       _checkout.Scan("A");
+
+       Assert.That(_checkout.GetTotalPrice(), Is.EqualTo(specialPriceA));
     }
 }
