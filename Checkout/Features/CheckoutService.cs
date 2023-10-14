@@ -29,7 +29,17 @@ public class CheckoutService : ICheckoutService
        foreach (var scannedItem in ScannedItems)
        {
             var item = PricingData.FindById(scannedItem.Key);
-            totalPrice += item.UnitPrice * scannedItem.Value;
+            if(item.IsSpecialOffer && scannedItem.Value >= item.SpecialOfferQty)
+            {
+                var offerQty = scannedItem.Value / item.SpecialOfferQty;
+                var leftOverQty = scannedItem.Value % item.SpecialOfferQty;
+                totalPrice += offerQty * item.SpecialOfferTotalPrice + leftOverQty * item.UnitPrice;
+            } 
+            else 
+            {
+                totalPrice += item.UnitPrice * scannedItem.Value;
+            }
+            
        }
        return totalPrice;
     }
