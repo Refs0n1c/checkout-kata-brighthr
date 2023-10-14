@@ -33,7 +33,7 @@ public class CheckoutServiceTests
         Assert.That(_checkout.GetScannedItemQtyByItemId("A"), Is.EqualTo(2));
     }
 
-      [Test]
+    [Test]
     public void Scan_AddsMultipleDifferentItemsToScannedItems()
     {
         Assert.That(_checkout.GetScannedItemQtyByItemId("A"), Is.EqualTo(0));
@@ -46,4 +46,9 @@ public class CheckoutServiceTests
         Assert.That(_checkout.GetScannedItemQtyByItemId("B"), Is.EqualTo(1));
     }
 
+    [Test]
+    public void Scan_ThrowsException_When_ItemNotFound()
+    {
+        Assert.Throws<Exception>(() => _checkout.Scan("Z"));
+    }
 }
