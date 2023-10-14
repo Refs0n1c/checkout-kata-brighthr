@@ -6,7 +6,14 @@ public class CheckoutService : ICheckoutService
 
     public void Scan(string item)
     {
-        ScannedItems.Add(item, 1);
+        if(ScannedItems.ContainsKey(item))
+        {
+            ScannedItems[item]++;
+        }
+        else
+        {
+            ScannedItems.Add(item, 1);
+        }
     }
     
     public int GetTotalPrice()
